@@ -44,3 +44,7 @@ one has
 s_y_joins = [[0,1,3], [0,2,3],[1,2]]
 y_s_joins = [[0,1],[0,2], [1,2],[0,1]]
 ```
+
+# Credits
+
+All the code is taken from [RQC-QKD-Software](https://github.com/RQC-QKD-Software/symmetric-reconciliation) with minor modifications to make it work under python 3
