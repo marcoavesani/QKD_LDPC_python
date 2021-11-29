@@ -2,7 +2,7 @@
 
 ## 1. General description
 
-Repository contains simulation of symmetric blind reconciliation algorithm realized in Python 2.7.
+Repository contains simulation of symmetric blind reconciliation algorithm realized in Python 3.
 
 ## 2. Files contents
 
@@ -44,6 +44,41 @@ one has
 s_y_joins = [[0,1,3], [0,2,3],[1,2]]
 y_s_joins = [[0,1],[0,2], [1,2],[0,1]]
 ```
+# Installation and vitual envs
+
+To run the code you need to first install a python 3 distribution.
+We recommend [Anaconda](https://docs.anaconda.com/anaconda/install/index.html) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) if you have space limitations. However, this is not strictly required and any other python 3 installation will work.
+
+To avoid messing up with your environment, we suggest to create a separate python environment for experimenting with the code.
+This can be done using the virtualenv package
+
+Fist, install the virtualenv pacakage with pip
+```sh
+pip install virtualenv
+```
+create the virtual env
+```sh
+virtualenv LDPC
+```
+Each time you want to activate the virtual env you must run:
+For Linux/Mac
+```sh
+source LDPC/bin/activate
+```
+for Windows
+```sh
+LDPC\bin\activate
+```
+then, only for the first time you need to install the dependencies:
+```sh
+pip install numpy scipy
+```
+and you should be ready to go.
+To exit form the virtualenv just type:
+```sh
+deactivate
+```
+
 
 # Credits
 
