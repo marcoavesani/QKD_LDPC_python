@@ -1,5 +1,5 @@
 def lines_to_array(lines):
-    return map(lambda x: map(int, x.split(' ')), lines)
+    return [list(map(int, x.split(' '))) for x in lines]
 
 def codes_from_file(file_path):
     with open(file_path, 'r') as fp:
