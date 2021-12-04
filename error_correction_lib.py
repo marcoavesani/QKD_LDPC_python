@@ -3,8 +3,8 @@ from scipy.sparse import dok_matrix as sparse_matrix
 from scipy.sparse import find as sparse_find
 from time import time
 import random
-from numpy import zeros, ceil, floor, copy, log2, arange, mean, array, sign
-
+from numpy import zeros, ceil, floor, copy, mean, sign
+#from  numba import jit #For speedup calculation of g
 
 def generate_key(length):
     """
@@ -42,7 +42,7 @@ def add_errors_prec(a, error_prob):
         K_cor[i] = 1-K_cor[i]
     return K_cor
 
-
+#@jit(nopython=True,nogil=True,cache=True)
 def h_b(x):
     """
     Binary entropy function of 'x'
@@ -54,7 +54,7 @@ def h_b(x):
     else:
         print("Incorrect argument in binary entropy function")
 
-
+#@jit(nopython=True,nogil=True,cache=True)
 def choose_sp(qber, f, R_range, n):
     '''
     Choose appropriate rate and numbers of shortened and punctured bits
@@ -100,7 +100,6 @@ def generate_sp(s_n, p_n, k_n, p_list=None):
     s_pos = np.sort(random.sample(list(all_pos1), s_n))
     k_pos = np.setdiff1d(all_pos1, s_pos)
     return s_pos, p_pos, k_pos
-
 
 def extend_sp(x, s_pos, p_pos, k_pos):
     '''
@@ -150,6 +149,7 @@ def decode_syndrome_minLLR(y, s, s_y_joins, y_s_joins, qber_est, s_pos, p_pos, k
     'z' -- decoded vector.
     'minLLR_inds' -- indices of symbols with minimal LLRs.
     """
+
     def h_func(x, mode=0):
         """
         Approximation of log(np.abs(np.exp(x)-1)) for 'mode'=0
@@ -174,12 +174,14 @@ def decode_syndrome_minLLR(y, s, s_y_joins, y_s_joins, qber_est, s_pos, p_pos, k
         else:
             return np.log(np.abs(np.exp(x)-1))
 
-    def core_func(x, y, mode=1):
+    #@jit(nopython=True,nogil=True,cache=True)
+    def core_func(x, y, mode=2):
         '''
         Core function () for computation of LLRs. 
         'x' and 'y' are arguments. 
         'mode' is approximation method: 0 - piecewise, 1 - table, 2 - exact,  
         '''
+
         def g_func_piecewise(x):
             """
             Approximation of log(1+exp(-x)) by linear interpolation between points
@@ -225,7 +227,7 @@ def decode_syndrome_minLLR(y, s, s_y_joins, y_s_joins, qber_est, s_pos, p_pos, k
             return sign(x)*sign(y)*min(abs(x), abs(y))+g_func_table(abs(x+y))-g_func_table(abs(x-y))
         else:
             # exact
-            return sign(x)*sign(y)*min(abs(x), abs(y))+log(1+exp(-abs(x+y)))-log(1+exp(-abs(x-y)))
+            return sign(x)*sign(y)*min(abs(x), abs(y))+np.log(1+np.exp(-abs(x+y)))-np.log(1+np.exp(-abs(x-y)))
 
     if not qber_est < 0.5:  # Adequate QBER check
         raise ValueError('Aprior error probability must be less than 1/2')

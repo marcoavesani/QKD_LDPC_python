@@ -1,3 +1,5 @@
 *.pyc
 
 output.txt
+
+__pycache__/
