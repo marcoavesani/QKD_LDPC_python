@@ -67,7 +67,7 @@ source LDPC/bin/activate
 ```
 for Windows
 ```sh
-LDPC\bin\activate
+LDPC\Scripts\activate
 ```
 then, only for the first time you need to install the dependencies:
 ```sh
