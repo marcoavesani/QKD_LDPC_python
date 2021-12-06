@@ -28,4 +28,4 @@ for qber in np.arange(qber_start, qber_end, qber_step):
         qber, R_range, codes, n, n_tries, f_start=f_start, show=2, discl_k=1)
     file_output.write('%8.4f%14.8f%14.8f%14.8f%10d%10d%10d%14d%10d%14.8f\n' % (
         qber, f_mean, com_iters_mean, R, s_n, p_n, p_n_max, k_n, discl_n, FER))
-    file_output.close()
+file_output.close()
